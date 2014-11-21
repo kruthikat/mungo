@@ -3,7 +3,7 @@
  * Template Name: Nurse Edit Profile
  */
 get_header();
-/* Only if a patient is logged in, the following content will be displayed */
+/* Only if a nurse is logged in, the following content will be displayed */
 if(isset($_SESSION['userid'])) {
 	$profile = new UpdateDatabaseOptions('hpusers');
 	if(isset($_POST['nsubmit'])) {
@@ -29,7 +29,7 @@ if(isset($_SESSION['userid'])) {
 		}
 		if($newPassword != '') {
 			if(!$profile->updateRow(
-							array('password' => $password), 
+							array('password' => $newPassword), 
 							array('userid' => $_SESSION['userid']),
 							array('%s'),
 							array('%s')))
@@ -46,10 +46,10 @@ if(isset($_SESSION['userid'])) {
 	$patientDetails = $patients->selectValue(array('age', 'gender'), array('userid' => $_SESSION['userid']));
 	?>
 <h1>Edit Profile</h1>
-<form name="patientEditProfile" action="" method="post">
+<form name="nurseEditProfile" action="" method="post">
 	<p>
-		<label for="pname">Name</label> <input type="text" name="pname"
-			id="pname" value="<?php echo $profileDetails[0]['name'];?>" />
+		<label for="nname">Name</label> <input type="text" name="nname"
+			id="nname" value="<?php echo $profileDetails[0]['name'];?>" />
 	</p>
 	<p>
 		<label for="contact">Contact Number</label> <input type="text"
@@ -64,38 +64,21 @@ if(isset($_SESSION['userid'])) {
 		<label for="email">Email ID</label> <input type="text" name="email"
 			id="email" value="<?php echo $profileDetails[0]['emailid'];?>" />
 	</p>
-	<p>
-		<label for="age">Age</label> <input type="text" name="age" id="age"
-			value="<?php echo $patientDetails[0]['age'];?>" />
-	</p>
-	<p>
-		<label for="gender">Gender</label>
-		<?php
-		$fselected = '';
-		$mselected = '';
-		$checked = 'checked="checked"';
-		if($patientDetails[0]['gender'] == 0) $mselected = $checked;
-		else if($patientDetails[0]['gender'] == 1) $fselected = $checked;
-		?>
-		<input type="radio" name="gender" value="1" id="female"
-		<?php echo $fselected; ?> /> Female <input type="radio" name="gender"
-			value="0" id="male" <?php echo $mselected; ?> /> Male
-	</p>
 	<p>Change Password</p>
 	<p>
-		<label for="popwd">Old Password</label> <input type="password"
-			name="popwd" id="popwd" />
+		<label for="nopwd">Old Password</label> <input type="password"
+			name="nopwd" id="nopwd" />
 	</p>
 	<p>
-		<label for="pnpwd">New Password</label> <input type="password"
-			name="pnpwd" id="pnpwd" />
+		<label for="npwd">New Password</label> <input type="password"
+			name="npwd" id="npwd" />
 	</p>
 	<p>
-		<label for="pcnpwd">Confirm New Password</label> <input
-			type="password" name="pcnpwd" id="pcnpwd" />
+		<label for="ncnpwd">Confirm New Password</label> <input
+			type="password" name="ncnpwd" id="ncnpwd" />
 	</p>
 	<p>
-		<input type="submit" name="psubmit" id="psubmit" value="Save Changes" />
+		<input type="submit" name="nsubmit" id="nsubmit" value="Save Changes" />
 	</p>
 </form>
 <?php }?>

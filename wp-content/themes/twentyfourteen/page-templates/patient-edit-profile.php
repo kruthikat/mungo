@@ -39,7 +39,7 @@ if(isset($_SESSION['userid'])) {
 		}
 		if($newPassword != '') {
 			if(!$profile->updateRow(
-							array('password' => $password), 
+							array('password' => $newPassword), 
 							array('userid' => $_SESSION['userid']),
 							array('%s'),
 							array('%s')))

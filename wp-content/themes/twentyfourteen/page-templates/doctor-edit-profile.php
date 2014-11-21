@@ -3,19 +3,19 @@
  * Template Name: Doctor Edit Profile
  */
 get_header();
-/* Only if a patient is logged in, the following content will be displayed */
+/* Only if a doctor is logged in, the following content will be displayed */
 if(isset($_SESSION['userid'])) {
 	$profile = new UpdateDatabaseOptions('hpusers');
-	$patients = new UpdateDatabaseOptions('patients');
-	if(isset($_POST['psubmit'])) {
+	$doctors = new UpdateDatabaseOptions('doctors');
+	if(isset($_POST['dsubmit'])) {
 		$error = 0;
-		$name = mysql_real_escape_string($_POST['pname']);
+		$name = mysql_real_escape_string($_POST['dname']);
 		$contact = mysql_real_escape_string($_POST['contact']);
 		$address = mysql_real_escape_string($_POST['address']);
 		$email = mysql_real_escape_string($_POST['email']);
-		$age = mysql_real_escape_string($_POST['age']);
-		$gender = mysql_real_escape_string($_POST['gender']);
-		$newPassword = mysql_real_escape_string($_POST['pnpwd']);
+		$qualification = mysql_real_escape_string($_POST['qualification']);
+		$experience = mysql_real_escape_string($_POST['experience']);
+		$newPassword = mysql_real_escape_string($_POST['dnpwd']);
 		if($name != '' && $contact != '' && $address != '' && $email != '' && $gender != '' && $age != '') {
 			if(!$profile->updateRow(
 							array('name' => $name,
@@ -26,11 +26,11 @@ if(isset($_SESSION['userid'])) {
 							array('%s', '%d', '%s', '%s'),
 							array('%s')))
 				$error++;
-			if(!$patients->updateRow(
-								array('age' => $age,
-									'gender' => $gender),
+			if(!$doctors->updateRow(
+								array('qualification' => $qualification,
+									'experience' => $experience),
 								array('userid' => $_SESSION['userid']),
-								array('%d', '%d'),
+								array('%s', '%f'),
 								array('%s')))
 				$error++;
 		}
@@ -39,7 +39,7 @@ if(isset($_SESSION['userid'])) {
 		}
 		if($newPassword != '') {
 			if(!$profile->updateRow(
-							array('password' => $password), 
+							array('password' => $newPassword), 
 							array('userid' => $_SESSION['userid']),
 							array('%s'),
 							array('%s')))
@@ -53,7 +53,7 @@ if(isset($_SESSION['userid'])) {
 		}
 	}
 	$profileDetails = $profile->selectValue(array('name', 'contact', 'addr', 'emailid'), array('userid' => $_SESSION['userid']));
-	$patientDetails = $patients->selectValue(array('age', 'gender'), array('userid' => $_SESSION['userid']));
+	$doctorDetails = $doctors->selectValue(array('qualification', 'experience'), array('userid' => $_SESSION['userid']));
 	?>
 <h1>Edit Profile</h1>
 <form name="patientEditProfile" action="" method="post">
@@ -75,37 +75,28 @@ if(isset($_SESSION['userid'])) {
 			id="email" value="<?php echo $profileDetails[0]['emailid'];?>" />
 	</p>
 	<p>
-		<label for="age">Age</label> <input type="text" name="age" id="age"
-			value="<?php echo $patientDetails[0]['age'];?>" />
+		<label for="qualification">Qualification</label> <input type="text" name="qualification" id="qualification"
+			value="<?php echo $doctorDetails[0]['qualification'];?>" />
 	</p>
 	<p>
-		<label for="gender">Gender</label>
-		<?php
-		$fselected = '';
-		$mselected = '';
-		$checked = 'checked="checked"';
-		if($patientDetails[0]['gender'] == 0) $mselected = $checked;
-		else if($patientDetails[0]['gender'] == 1) $fselected = $checked;
-		?>
-		<input type="radio" name="gender" value="1" id="female"
-		<?php echo $fselected; ?> /> Female <input type="radio" name="gender"
-			value="0" id="male" <?php echo $mselected; ?> /> Male
+		<label for="experience">Experience</label> <input type="text" name="experience" id="experience"
+			value="<?php echo $doctorDetails[0]['experience'];?>" />
 	</p>
 	<p>Change Password</p>
 	<p>
-		<label for="popwd">Old Password</label> <input type="password"
-			name="popwd" id="popwd" />
+		<label for="dopwd">Old Password</label> <input type="password"
+			name="dopwd" id="dopwd" />
 	</p>
 	<p>
-		<label for="pnpwd">New Password</label> <input type="password"
-			name="pnpwd" id="pnpwd" />
+		<label for="dnpwd">New Password</label> <input type="password"
+			name="dnpwd" id="dnpwd" />
 	</p>
 	<p>
-		<label for="pcnpwd">Confirm New Password</label> <input
-			type="password" name="pcnpwd" id="pcnpwd" />
+		<label for="dcnpwd">Confirm New Password</label> <input
+			type="password" name="dcnpwd" id="dcnpwd" />
 	</p>
 	<p>
-		<input type="submit" name="psubmit" id="psubmit" value="Save Changes" />
+		<input type="submit" name="dsubmit" id="dsubmit" value="Save Changes" />
 	</p>
 </form>
 <?php }?>
