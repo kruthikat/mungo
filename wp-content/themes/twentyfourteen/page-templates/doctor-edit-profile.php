@@ -1,6 +1,6 @@
 <?php
 /**
- * Template Name: Patient Edit Profile
+ * Template Name: Doctor Edit Profile
  */
 get_header();
 /* Only if a patient is logged in, the following content will be displayed */

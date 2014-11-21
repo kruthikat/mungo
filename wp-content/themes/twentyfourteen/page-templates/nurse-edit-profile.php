@@ -1,21 +1,18 @@
 <?php
 /**
- * Template Name: Patient Edit Profile
+ * Template Name: Nurse Edit Profile
  */
 get_header();
 /* Only if a patient is logged in, the following content will be displayed */
 if(isset($_SESSION['userid'])) {
 	$profile = new UpdateDatabaseOptions('hpusers');
-	$patients = new UpdateDatabaseOptions('patients');
-	if(isset($_POST['psubmit'])) {
+	if(isset($_POST['nsubmit'])) {
 		$error = 0;
-		$name = mysql_real_escape_string($_POST['pname']);
+		$name = mysql_real_escape_string($_POST['nname']);
 		$contact = mysql_real_escape_string($_POST['contact']);
 		$address = mysql_real_escape_string($_POST['address']);
 		$email = mysql_real_escape_string($_POST['email']);
-		$age = mysql_real_escape_string($_POST['age']);
-		$gender = mysql_real_escape_string($_POST['gender']);
-		$newPassword = mysql_real_escape_string($_POST['pnpwd']);
+		$newPassword = mysql_real_escape_string($_POST['npwd']);
 		if($name != '' && $contact != '' && $address != '' && $email != '' && $gender != '' && $age != '') {
 			if(!$profile->updateRow(
 							array('name' => $name,
@@ -25,13 +22,6 @@ if(isset($_SESSION['userid'])) {
 							array('userid' => $_SESSION['userid']),
 							array('%s', '%d', '%s', '%s'),
 							array('%s')))
-				$error++;
-			if(!$patients->updateRow(
-								array('age' => $age,
-									'gender' => $gender),
-								array('userid' => $_SESSION['userid']),
-								array('%d', '%d'),
-								array('%s')))
 				$error++;
 		}
 		else {

@@ -31,9 +31,8 @@ if(isset($_SESSION['userid'])) {
 			<?php 
 			$inPatient = new UpdateDatabaseOptions("in_patients");
 			$admissionDetails = $inPatient->selectValue(array('roomno'), array('userid' => $_SESSION['userid'], 'admit_date' => $appointment['apt_date']));
-			if(count($admissionDetails) != 0) {
+			if(count($admissionDetails) != 0)
 				echo 'In-patient: ' . $admissionDetails[0]['roomno'];
-			}
 			else echo 'Out-Patient';
 			?>
 			</td>
