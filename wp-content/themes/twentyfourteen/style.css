@@ -10,3 +10,110 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: black, green, white, light, dark, two-columns, three-columns, left-sidebar, right-sidebar, fixed-layout, responsive-layout, custom-background, custom-header, custom-menu, editor-style, featured-images, flexible-header, full-width-template, microformats, post-formats, rtl-language-support, sticky-post, theme-options, translation-ready, accessibility-ready
 Text Domain: twentyfourteen
 */
+body {
+	font-family: philosopher, sans-serif;
+}
+
+.outer_main {
+	background-color: #FAF6EB;
+}
+
+.header {
+	width: ;
+	background-color: #2E2633;
+	height: 150px;
+	padding: 20px;
+}
+
+.header h1 { /*font-family: snippet, sans-serif;*/
+	font-family: philosopher, sans-serif;
+	font-weight: bold;
+	color: #FAF6EB;
+	font-size: 50px;
+	margin: 20px 20px 20px 160px;
+	padding: 0;
+}
+
+.header p {
+	font-size: 25px;
+	margin-left: 266px;
+	color: #FAF6EB;
+}
+
+.page_main {
+	width: 968px;
+	min-height: 400px;
+	margin: 0 auto;
+	background-color: #FAF6EB;
+	padding: 40px;
+}
+
+.infobar {
+	width: 100%;
+	background-color: #DCE9BE;
+	padding: 10px;
+	margin-bottom: 25px;
+}
+
+.infobar.top {
+	width: auto;
+	margin-bottom: 0;
+	height: 20px;
+}
+
+.infobar.top p {
+	margin: 0;
+	float: right;
+	margin-right: 200px;
+}
+
+label {
+	float: left;
+	width: 200px;
+}
+
+input[type="text"],input[type="password"],select {
+	width: 250px;
+	height: 25px;
+}
+
+select {
+	height: 30px;
+}
+
+.red {
+	color: red
+}
+
+.btm {
+	width: 120px;
+	height: 38px;
+	border: none;
+	cursor: pointer;
+}
+
+.submit_btm {
+	background: url(images/submit_btm.png) no-repeat;
+}
+
+.login_btm {
+	background: url(images/login_btm.png) no-repeat;
+}
+
+table {
+	width: 75%;
+	margin: 0px auto;
+}
+
+tr.header_row {
+	background-color: #DCE9BE;
+}
+
+td,th {
+	border: 1px solid #DCE9BE;
+	padding: 5px;
+}
+
+td {
+	text-align: center;
+}

@@ -6,6 +6,7 @@ get_header();
 /* Only if a patient is logged in, the following content will be displayed */
 $profile = new UpdateDatabaseOptions('hpusers');
 $patients = new UpdateDatabaseOptions('patients');
+$message = '';
 if(isset($_POST['rpsubmit'])) {
 	$error = 0;
 	$username = mysql_real_escape_string($_POST['runame']);
@@ -16,8 +17,6 @@ if(isset($_POST['rpsubmit'])) {
 	$age = mysql_real_escape_string($_POST['rage']);
 	$gender = mysql_real_escape_string($_POST['rgender']);
 	$password = mysql_real_escape_string($_POST['rpnpwd']);
-	echo $age . ' ';
-	echo $gender;
 	if($name != '' && $contact != '' && $address != '' && $email != '' && $gender != '' && $age != '') {
 		if(!$profile->insertRow(
 			array('userid' => $username, 'password' => $password, 'name' => $name,
@@ -34,56 +33,64 @@ if(isset($_POST['rpsubmit'])) {
 			$error++;
 	}
 	else {
-		echo "'Name', 'Contact Number', 'Address', 'Email ID', 'Age' and 'Gender' cannot be left blank";
+		$message = "'Name', 'Contact Number', 'Address', 'Email ID', 'Age' and 'Gender' cannot be left blank";
 	}
 	if($error != 0) {
-		echo 'Sorry! Please try again.';
+		$message = 'Sorry! Please try again.';
 	}
 	else {
-		echo 'Registration done! Please continue to login';
+		$login = site_url();
+		$message = "Registration done! Please continue to <a href='$login'>login</a>";
 	}
 }
 ?>
-<h1>Register here</h1>
+	<?php if($message != '') {?>
+	<div class="infobar">
+	<?php echo $message;?>
+	</div>
+	<?php }?>
+<h2>Register here</h2>
 <form name="patientRegister" action="" method="post">
+
 	<p>
-		<label for="runame">User Name *</label> <input type="text" name="runame"
+		<label for="runame">User Name <span class="red">*</span></label> <input type="text" name="runame"
 			id="runame" />
 	</p>
-	<p>Enter Password</p>
+	<p><strong>Enter Password:</strong></p>
 	<p>
-		<label for="rpnpwd">Password *</label> <input type="password"
+		<label for="rpnpwd">Password <span class="red">*</span></label> <input type="password"
 			name="rpnpwd" id="rpnpwd" />
 	</p>
 	<p>
-		<label for="rpcnpwd">Confirm Password *</label> <input type="password"
+		<label for="rpcnpwd">Confirm Password <span class="red">*</span></label> <input type="password"
 			name="rpcnpwd" id="rpcnpwd" />
 	</p>
-	<p>Details:</p>
+	<p><strong>Details:</strong></p>
 	<p>
-		<label for="rpname">Name *</label> <input type="text" name="rpname"
+		<label for="rpname">Name <span class="red">*</span></label> <input type="text" name="rpname"
 			id="rpname" />
 	</p>
 	<p>
-		<label for="rcontact">Contact Number *</label> <input type="text"
+		<label for="rcontact">Contact Number <span class="red">*</span></label> <input type="text"
 			name="rcontact" id="rcontact" />
 	</p>
 	<p>
-		<label for="raddress">Address *</label> <input type="text"
+		<label for="raddress">Address <span class="red">*</span></label> <input type="text"
 			name="raddress" />
 	</p>
 	<p>
-		<label for="remail">Email ID *</label> <input type="text" name="remail" />
+		<label for="remail">Email ID <span class="red">*</span></label> <input type="text" name="remail" />
 	</p>
 	<p>
-		<label for="rage">Age *</label> <input type="text" name="rage" id="rage" />
+		<label for="rage">Age <span class="red">*</span></label> <input type="text" name="rage" id="rage" />
 	</p>
 	<p>
-		<label for="rgender">Gender *</label> <input type="radio" name="rgender"
+		<label for="rgender">Gender <span class="red">*</span></label> <input type="radio" name="rgender"
 			value="1" id="rfemale" /> Female <input type="radio" name="rgender"
 			value="0" id="rmale" /> Male
 	</p>
 	<p>
-		<input type="submit" name="rpsubmit" id="rpsubmit" value="Register" />
+		<input type="submit" name="rpsubmit" id="rpsubmit" value="" class="btm submit_btm"/>
 	</p>
 </form>
+<?php get_footer();?>

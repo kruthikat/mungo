@@ -34,7 +34,7 @@ session_start();
 	href="<?php bloginfo('template_url')?>/js/jquery-ui-1.11.2.custom/jquery-ui.structure.min.css">
 <link rel="stylesheet"
 	href="<?php bloginfo('template_url')?>/js/jquery-ui-1.11.2.custom/jquery-ui.theme.min.css">
-
+<script src="//use.edgefonts.net/snippet;philosopher.js"></script>
 <!--[if lt IE 9]>
 	<script src="<?php echo get_template_directory_uri(); ?>/js/html5.js"></script>
 	<![endif]-->
@@ -50,8 +50,17 @@ jQuery(function() {
 </head>
 
 <body <?php body_class(); ?>>
-<?php
-if(isset($_SESSION['userid'])) {
-	echo $_SESSION['userid'];
-}
-?>
+	<div class="outer_main">
+		<div class="header">
+			<h1>St. Mungo's Hospital</h1>
+			<p>for Magical Maladies and Injuries</p>
+		</div>
+		<div class="infobar top">
+			<?php if(isset($_SESSION['userid'])) { ?>
+			<p>
+			<?php echo 'Welcome <strong>' . $_SESSION['name'] . '</strong>!'; ?>
+			<a href="<?php bloginfo(template_url);?>/Logout.php">Log out</a>
+			</p>
+			<?php }?>
+		</div>
+		<div class="page_main">

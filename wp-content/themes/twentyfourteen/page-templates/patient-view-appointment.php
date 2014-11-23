@@ -11,9 +11,9 @@ if(isset($_SESSION['userid'])) {
 	$patientAppointments = $wpdb->get_results($query, ARRAY_A);
 	if(count($patientAppointments) != 0) {
 		?>
-<table border="1">
+<table>
 	<thead>
-		<tr>
+		<tr class="header_row">
 			<th>Appointment Date</th>
 			<th>Diagnosis</th>
 			<th>Prescribed Medicines</th>
@@ -41,7 +41,10 @@ if(isset($_SESSION['userid'])) {
 		<?php }?>
 	</thead>
 </table>
-		<?php } else {
-			echo 'You have no appointments.';
-		}?>
-		<?php }?>
+		<?php } else { ?>
+			<div class="infobar">
+<?php echo 'You have no appointments.';?>
+</div>
+<?php }
+}
+get_footer();

@@ -46,16 +46,20 @@ if(isset($_SESSION['userid'])) {
 				$error++;
 		}
 		if($error != 0) {
-			echo 'Sorry! Please try again.';
+			$message = 'Sorry! Please try again.';
 		}
 		else {
-			echo 'Changes successfully saved.';
+			$message = 'Changes successfully saved.';
 		}
 	}
 	$profileDetails = $profile->selectValue(array('name', 'contact', 'addr', 'emailid'), array('userid' => $_SESSION['userid']));
 	$patientDetails = $patients->selectValue(array('age', 'gender'), array('userid' => $_SESSION['userid']));
-	?>
-<h1>Edit Profile</h1>
+	if($message != '') {?>
+<div class="infobar">
+<?php echo $message;?>
+</div>
+<?php }?>
+<h2>Edit Profile</h2>
 <form name="patientEditProfile" action="" method="post">
 	<p>
 		<label for="pname">Name</label> <input type="text" name="pname"
@@ -91,7 +95,7 @@ if(isset($_SESSION['userid'])) {
 		<?php echo $fselected; ?> /> Female <input type="radio" name="gender"
 			value="0" id="male" <?php echo $mselected; ?> /> Male
 	</p>
-	<p>Change Password</p>
+	<p><strong>Change Password?</strong></p>
 	<p>
 		<label for="popwd">Old Password</label> <input type="password"
 			name="popwd" id="popwd" />
@@ -105,7 +109,7 @@ if(isset($_SESSION['userid'])) {
 			type="password" name="pcnpwd" id="pcnpwd" />
 	</p>
 	<p>
-		<input type="submit" name="psubmit" id="psubmit" value="Save Changes" />
+		<input type="submit" name="psubmit" id="psubmit" value="" class="btm submit_btm" />
 	</p>
 </form>
 <?php }?>

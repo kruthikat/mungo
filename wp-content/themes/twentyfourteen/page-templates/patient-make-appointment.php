@@ -4,7 +4,7 @@
  */
 get_header();
 /* Only if a patient is logged in, the following content will be displayed */
-if(isset($_SESSION['userid'])) {
+if(isset($_SESSION['userid']) && isset($_SESSION['usertype']) && $_SESSION['usertype'] == 2) {
 	if(isset($_POST['makeappt'])) {
 		/* Fetch the user entered values for department and date once the form is submiited */
 		$department = $_POST['department'];
@@ -16,9 +16,10 @@ if(isset($_SESSION['userid'])) {
 		 */
 		$appointments = new UpdateDatabaseOptions('appointments');
 		$numOfAppointments = $appointments->selectValue(array('COUNT(*)'), array('apt_date' => $date, 'dept_id' => $department));
+		$message = '';
 		foreach($numOfAppointments as $appointment) {
 			if($appointment['COUNT(*)'] == 10) {
-				echo 'Sorry! The appointments for this date are not available. Please choose another date.';
+				$message = 'Sorry! The appointments for this date are not available. Please choose another date.';
 			}
 			else {
 				$newAppointment = $appointments->insertRow(array('apt_date' => $date,
@@ -45,10 +46,10 @@ if(isset($_SESSION['userid'])) {
 												'doctor_id' => $departmentDoctors[$chosenDoctor]['userid'],
 												'bill_no' => $billNumber), array('%s', '%s', '%d'));
 				if($newAppointment !== FALSE && $generateBill !== FALSE && $treatment !== FALSE) {
-					echo "Appointment confirmed!";
+					$message = "Appointment confirmed!";
 				}
 				else {
-					echo "Sorry! Please try again.";
+					$message = "Sorry! Please try again.";
 				}
 			}
 		}
@@ -57,7 +58,12 @@ if(isset($_SESSION['userid'])) {
 	$pageID = $post->ID;
 	$departments = new UpdateDatabaseOptions('departments');
 	$allDepartments = $departments->selectValue(array('*'), '');
-	?>
+	if($message != '') {?>
+<div class="infobar">
+<?php echo $message;?>
+</div>
+<?php }?>
+<h2>Make an Appointment</h2>
 <form name="makeAppt" action="" method="post">
 	<label for="department">Select Department</label> <select
 		name="department" id="department">
@@ -68,11 +74,13 @@ if(isset($_SESSION['userid'])) {
 		<?php }?>
 	</select>
 	<p>
-		Date: <input type="text" id="datepicker" name="apptDate" />
+		<label for="apptDate">Date </label><input type="text" id="datepicker"
+			name="apptDate" />
 	</p>
 	<p>
-		<input type="submit" value="Make Appointment" id="makeappt"
-			name="makeappt" />
+		<input type="submit" value="" id="makeappt" name="makeappt"
+			class="btm submit_btm" />
 	</p>
 </form>
-		<?php }?>
+<?php }
+get_footer();

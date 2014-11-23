@@ -6,17 +6,18 @@ get_header();
 if(isset($_POST['log'])) {
 	$username = $_POST['uname'];
 	$password = $_POST['pwd'];
+	$error = '';
 	if($username != '' && $password != '') {
 		$loginCheck = new UpdateDatabaseOptions('hpusers');
-		$validateLogin = $loginCheck->selectValue(array('userid', 'type'), array('userid' => $username, 'password' => $password));
+		$validateLogin = $loginCheck->selectValue(array('userid', 'name', 'type'), array('userid' => $username, 'password' => $password));
 		if(count($validateLogin) != 0) {
 			foreach($validateLogin as $login) {
 				if($login['userid'] != '' && $login['userid'] == $username) {
 					session_regenerate_id(true);
 					$_SESSION['userid'] = $login['userid'];
 					$_SESSION['usertype'] = $login['type'];
-					echo $_SESSION['userid'];
-					echo $_SESSION['usertype'];
+					echo $login['name'];
+					$_SESSION['name'] = $login['name'];
 					if($login['type'] == 1) {
 						header('Location:' . get_permalink(27));
 					}
@@ -27,23 +28,40 @@ if(isset($_POST['log'])) {
 						header('Location:' . get_permalink(19));
 					}
 					else {
-						echo 'Can\'t redirect as of now';
+						$error = 'Can\'t redirect as of now';
 					}
 				}
 				else {
-					echo 'login failed';
+					$error = 'Username (or) Password is incorrect';
 				}
 			}
 		}
 		else {
-			echo 'login failed';
+			$error = 'Username (or) Password is incorrect';
 		}
 	}
 }
 ?>
-<form name="login" action="" method="post">
-	<label for="uname">Username</label> <input type="text" id="uname"
-		name="uname" /> <br /> <label for="password">Password</label> <input
-		type="password" id="pwd" name="pwd" /> <br /> <input type="submit"
-		value="Log In" name="log" id="log" />
-</form>
+<div class="login_page">
+<?php if($error != '') {?>
+	<div class="infobar">
+	<?php echo $error;?>
+	</div>
+	<?php }?>
+	<p>The name of this hospital has been taken from the famous fictional novel series, "Harry Potter"</p>
+	<p><strong>Please login or register to continue</strong></p>
+	<form name="login" action="" method="post">
+		<p>
+			<label for="uname">Username</label> <input type="text" id="uname"
+				name="uname" />
+		</p>
+		<p>
+			<label for="password">Password</label> <input type="password"
+				id="pwd" name="pwd" />
+		</p>
+		<p><input type="submit" value="" name="log" id="log"  class="btm login_btm" /></p>
+	</form>
+	<p>If you are a patient and do not already have an account, please <a href="<?php echo get_permalink(get_page_by_title('Register'));?>">sign up</a> here</p>
+	<p>If you are a doctor or a nurse working in this hospital, please contact your Hospital Manager for access to your account</p>
+</div>
+<?php get_footer();?>
