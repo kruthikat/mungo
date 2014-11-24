@@ -57,30 +57,36 @@ if(isset($_SESSION['userid']) && isset($_SESSION['usertype']) && $_SESSION['user
 	global $post;
 	$pageID = $post->ID;
 	$departments = new UpdateDatabaseOptions('departments');
-	$allDepartments = $departments->selectValue(array('*'), '');
-	if($message != '') {?>
-<div class="infobar">
-<?php echo $message;?>
+	$allDepartments = $departments->selectValue(array('*'), ''); ?>
+<div class="leftnav"><?php get_sidebar('patient');?></div>
+<div class="main_content">
+<?php if($message != '') {?>
+	<div class="infobar">
+	<?php echo $message;?>
+	</div>
+	<?php }?>
+	<h2>Make an Appointment</h2>
+	<form name="makeAppt" action="" method="post">
+		<label for="department">Select Department</label> <select
+			name="department" id="department">
+			<?php foreach($allDepartments as $department) {?>
+			<option value="<?php echo $department['dept_id'];?>">
+			<?php echo $department['dept_name'];?>
+			</option>
+			<?php }?>
+		</select>
+		<p>
+			<label for="apptDate">Date </label><input type="text" id="datepicker"
+				name="apptDate" />
+		</p>
+		<p>
+			<input type="submit" value="" id="makeappt" name="makeappt"
+				class="btm submit_btm" />
+		</p>
+	</form>
 </div>
-<?php }?>
-<h2>Make an Appointment</h2>
-<form name="makeAppt" action="" method="post">
-	<label for="department">Select Department</label> <select
-		name="department" id="department">
-		<?php foreach($allDepartments as $department) {?>
-		<option value="<?php echo $department['dept_id'];?>">
-		<?php echo $department['dept_name'];?>
-		</option>
-		<?php }?>
-	</select>
-	<p>
-		<label for="apptDate">Date </label><input type="text" id="datepicker"
-			name="apptDate" />
-	</p>
-	<p>
-		<input type="submit" value="" id="makeappt" name="makeappt"
-			class="btm submit_btm" />
-	</p>
-</form>
-<?php }
-get_footer();
+			<?php }
+			else {
+				header("Location:" . site_url());
+			}
+			get_footer();

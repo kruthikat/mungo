@@ -4,13 +4,15 @@
  */
 get_header();
 /* Only if a patient is logged in, the following content will be displayed */
-if(isset($_SESSION['userid'])) {
+if(isset($_SESSION['userid']) && isset($_SESSION['usertype']) && $_SESSION['usertype'] == 2) {
 	global $wpdb;
 	$tablename = $wpdb->prefix;
 	$query = 'SELECT A.apt_date, T.diagnosis, T.prescribed_med, D.name FROM ' . $tablename. 'appointments A, ' . $tablename. 'treatments T, ' . $tablename. 'hpusers D, ' . $tablename. 'treats T2 WHERE A.patient_id = "' . $_SESSION['userid']. '" AND A.patient_id = T2.patient_id AND T2.doctor_id = D.userid AND T2.bill_no = T.bill_no;';
-	$patientAppointments = $wpdb->get_results($query, ARRAY_A);
-	if(count($patientAppointments) != 0) {
-		?>
+	$patientAppointments = $wpdb->get_results($query, ARRAY_A); ?>
+	<div class="leftnav"><?php get_sidebar('patient');?></div>
+<div class="main_content">
+<h2>Your appointments</h2>
+<?php if(count($patientAppointments) != 0) { ?>
 <table>
 	<thead>
 		<tr class="header_row">
@@ -45,6 +47,10 @@ if(isset($_SESSION['userid'])) {
 			<div class="infobar">
 <?php echo 'You have no appointments.';?>
 </div>
+</div>
 <?php }
+}
+else {
+	header("Location:" . site_url());
 }
 get_footer();

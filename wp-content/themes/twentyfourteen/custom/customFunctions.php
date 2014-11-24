@@ -25,8 +25,9 @@ function getRoomRent($admitDate, $dischargeDate, $rent) {
 
 function getTotalBillAmount($admitDate, $dischargeDate, $rent, $prescriptions) {
 	$roomRent = 0;
-	if($admitDate != '' && $dischargeDate != '' && $rent != '')
+	if($admitDate != '' && $dischargeDate != '' && $rent != '') {
 		$roomRent = getRoomRent($admitDate, $dischargeDate, $rent);
+	}
 	$medsCost = 0;
 	if($prescriptions != '')
 		$medsCost = getMedicinesCost($prescriptions);

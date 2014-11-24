@@ -34,6 +34,10 @@ body {
 	padding: 0;
 }
 
+h2 {
+	color: #99173C;
+}
+
 .header p {
 	font-size: 25px;
 	margin-left: 266px;
@@ -82,7 +86,7 @@ select {
 }
 
 .red {
-	color: red
+	color: #99173C;
 }
 
 .btm {
@@ -101,7 +105,7 @@ select {
 }
 
 table {
-	width: 75%;
+	width: 100%;
 	margin: 0px auto;
 }
 
@@ -116,4 +120,66 @@ td,th {
 
 td {
 	text-align: center;
+}
+
+.options {
+	width: auto;
+	height: auto;
+	margin: 0 auto;
+}
+
+.option {
+	width: 350px;
+	height: 75px;
+	background-color: #555152;
+	float: left;
+	margin: 20px;
+	padding: 10px;
+	text-align: center;
+	font-size: 20px;
+	border-radius: 10px;
+}
+
+.option.two,.menu.two {
+	background-color: #DCE9BE;
+}
+
+.option.one p a,.menu.one p a {
+	color: #FAF6EB;
+}
+
+.option.two p a,.menu.two p a {
+	color: #000;
+}
+
+.leftnav {
+	float: left;
+	margin-right: 40px;
+	margin-top: 10px;
+	width: 27%;
+}
+
+.main_content {
+	float: left;
+	width: 65%;
+	height: inherit;
+}
+
+.menu {
+	width: auto;
+	border-radius: 10px;
+	height: 40px;
+	background-color: #555152;
+	text-align: center;
+	margin-bottom: 20px;
+	padding-top: 1px;
+}
+
+.menu p {
+	margin: 10px 0;
+}
+
+.ui-widget-header {
+	background: #555152;
+	border: 1px solid #2E2633;
 }
