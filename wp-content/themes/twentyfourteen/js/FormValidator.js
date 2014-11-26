@@ -383,3 +383,10 @@ function nurseProfileValidate() {
 		return false;
 	}
 }
+
+jQuery(document).ready(function() {
+	jQuery("a#pay").click(function() {
+		jQuery(this).attr('id', 'paid');
+		jQuery(this).parent().html('Paid');
+	});
+});
