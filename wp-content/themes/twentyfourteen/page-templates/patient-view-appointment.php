@@ -9,46 +9,70 @@ if(isset($_SESSION['userid']) && isset($_SESSION['usertype']) && $_SESSION['user
 	$tablename = $wpdb->prefix;
 	$query = 'SELECT A.apt_date, T.diagnosis, T.prescribed_med, D.name FROM ' . $tablename. 'appointments A, ' . $tablename. 'treatments T, ' . $tablename. 'hpusers D, ' . $tablename. 'treats T2 WHERE A.patient_id = "' . $_SESSION['userid']. '" AND A.patient_id = T2.patient_id AND T2.doctor_id = D.userid AND T2.bill_no = T.bill_no;';
 	$patientAppointments = $wpdb->get_results($query, ARRAY_A); ?>
-	<div class="leftnav"><?php get_sidebar('patient');?></div>
+<div class="leftnav">
+<?php get_sidebar('patient');?>
+</div>
 <div class="main_content">
-<h2>Your appointments</h2>
-<?php if(count($patientAppointments) != 0) { ?>
-<table>
-	<thead>
-		<tr class="header_row">
-			<th>Appointment Date</th>
-			<th>Diagnosis</th>
-			<th>Prescribed Medicines</th>
-			<th>Admission Details</th>
-			<th>Reference Doctor</th>
-		</tr>
-		<?php foreach ($patientAppointments as $appointment) { ?>
-		<tr>
-			<td><?php echo $appointment['apt_date'];?></td>
-			<td><?php if($appointment['diagnosis'] != '') echo $appointment['diagnosis']; else echo 'Diagnosis not available yet.';?>
-			</td>
-			<td><?php if($appointment['prescribed_med'] != '') echo $appointment['prescribed_med']; else echo 'Prescriptions not available yet.';?>
-			</td>
-			<td>
-			<?php 
-			$inPatient = new UpdateDatabaseOptions("in_patients");
-			$admissionDetails = $inPatient->selectValue(array('roomno'), array('userid' => $_SESSION['userid'], 'admit_date' => $appointment['apt_date']));
-			if(count($admissionDetails) != 0)
-				echo 'In-patient: ' . $admissionDetails[0]['roomno'];
-			else echo 'Out-Patient';
-			?>
-			</td>
-			<td><?php echo $appointment['name'];?></td>
-		</tr>
-		<?php }?>
-	</thead>
-</table>
-		<?php } else { ?>
-			<div class="infobar">
-<?php echo 'You have no appointments.';?>
+	<h2>Your appointments</h2>
+	<?php if(count($patientAppointments) != 0) { ?>
+	<table>
+		<thead>
+			<tr class="header_row">
+				<th>Appointment Date</th>
+				<th>Diagnosis</th>
+				<th>Prescribed Medicines</th>
+				<th>Admission Details</th>
+				<th>Reference Doctor</th>
+			</tr>
+			<?php foreach ($patientAppointments as $appointment) {
+				$inPatient = new UpdateDatabaseOptions("in_patients");
+				$rooms = new UpdateDatabaseOptions("rooms");
+				$roomType = new UpdateDatabaseOptions("roomtype");
+				if(isset($_POST['roomtype' . $appointment['apt_date']])) {
+					
+				}
+				?>
+			<tr>
+				<td><?php echo $appointment['apt_date'];?></td>
+				<td><?php if($appointment['diagnosis'] != '') echo $appointment['diagnosis']; else echo 'Diagnosis not available yet.';?>
+				</td>
+				<td><?php if($appointment['prescribed_med'] != '') echo $appointment['prescribed_med']; else echo 'Prescriptions not available yet.';?>
+				</td>
+				<td><?php 
+					
+				$admissionDetails = $inPatient->selectValue(array('roomno'), array('userid' => $_SESSION['userid'], 'admit_date' => $appointment['apt_date']));
+				if(count($admissionDetails) != 0) {
+					echo 'In-patient: ' . $admissionDetails[0]['roomno'];
+					$admittedRoomType = $rooms->selectValue(array('typeid'), array('roomno' => $admissionDetails[0]['roomno']));
+					if($admittedRoomType[0]['typeid'] == '1') { ?>
+					<p>You are currently admitted to a General room by default. You can
+						choose to change the type of room:</p>
+					<form name="roomtype<?php echo $appointment['apt_date'];?>"
+						method="post" action="">
+						<select style="width: 100px;">
+						<?php $types = $roomType->selectValue(array('typeid', 'rtype'), array(''));
+						foreach($types as $type) { ?>
+							<option value="<?php $type['typeid'];?>">
+							<?php echo $type['rtype']?>
+							</option>
+							<?php  } ?>
+						</select>
+					</form> <?php }
+				}
+				else echo 'Out-Patient';
+				?>
+				</td>
+				<td><?php echo $appointment['name'];?></td>
+			</tr>
+			<?php }?>
+		</thead>
+	</table>
+	<?php } else { ?>
+	<div class="infobar">
+	<?php echo 'You have no appointments.';?>
+	</div>
 </div>
-</div>
-<?php }
+	<?php }
 }
 else {
 	header("Location:" . site_url());

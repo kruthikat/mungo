@@ -117,7 +117,7 @@ if(isset($_SESSION['userid']) && isset($_SESSION['usertype']) && $_SESSION['user
 		</p>
 		<p>
 			<input type="submit" name="psubmit" id="psubmit" value=""
-				class="btm submit_btm" />
+				class="btm submit_btm" onclick="return patientProfileValidate();"/>
 		</p>
 	</form>
 	<?php }

@@ -76,21 +76,21 @@ if(isset($_POST['rpsubmit'])) {
 	</p>
 	<p>
 		<label for="raddress">Address <span class="red">*</span></label> <input type="text"
-			name="raddress" />
+			name="raddress" id="raddress" />
 	</p>
 	<p>
-		<label for="remail">Email ID <span class="red">*</span></label> <input type="text" name="remail" />
+		<label for="remail">Email ID <span class="red">*</span></label> <input type="text" name="remail" id="remail" />
 	</p>
 	<p>
 		<label for="rage">Age <span class="red">*</span></label> <input type="text" name="rage" id="rage" />
 	</p>
 	<p>
 		<label for="rgender">Gender <span class="red">*</span></label> <input type="radio" name="rgender"
-			value="1" id="rfemale" /> Female <input type="radio" name="rgender"
+			value="1" id="rfemale" checked="checked"/> Female <input type="radio" name="rgender"
 			value="0" id="rmale" /> Male
 	</p>
 	<p>
-		<input type="submit" name="rpsubmit" id="rpsubmit" value="" class="btm submit_btm"/>
+		<input type="submit" name="rpsubmit" id="rpsubmit" value="" class="btm submit_btm" onclick="return registerValidate();"/>
 	</p>
 </form>
-<?php get_footer();?>
+<?php get_footer();

@@ -12,5 +12,8 @@
 		</div> <!-- page main -->
 	</div> <!-- outer main -->
 	<?php wp_footer(); ?>
+	<script
+	src="<?php bloginfo('template_url')?>/js/FormValidator.js"
+	type="text/javascript"></script>
 </body>
 </html>

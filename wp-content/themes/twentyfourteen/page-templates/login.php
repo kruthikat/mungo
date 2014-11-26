@@ -59,7 +59,7 @@ if(isset($_POST['log'])) {
 			<label for="password">Password</label> <input type="password"
 				id="pwd" name="pwd" />
 		</p>
-		<p><input type="submit" value="" name="log" id="log"  class="btm login_btm" /></p>
+		<p><input type="submit" value="" name="log" id="log"  class="btm login_btm" onclick="return loginValidate();"/></p>
 	</form>
 	<p>If you are a patient and do not already have an account, please <a href="<?php echo get_permalink(get_page_by_title('Register'));?>">sign up</a> here</p>
 	<p>If you are a doctor or a nurse working in this hospital, please contact your Hospital Manager for access to your account</p>
