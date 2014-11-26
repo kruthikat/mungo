@@ -44,7 +44,7 @@ session_start();
 	type="text/javascript"></script>
 <script>
 jQuery(function() {
-	jQuery( "#datepicker" ).datepicker({ dateFormat: "yy-mm-dd" });
+	jQuery( "#datepicker" ).datepicker({ dateFormat: "yy-mm-dd" , minDate: 0 });
   });
   </script>
 </head>

@@ -76,12 +76,12 @@ if(isset($_SESSION['userid']) && isset($_SESSION['usertype']) && $_SESSION['user
 			<?php }?>
 		</select>
 		<p>
-			<label for="apptDate">Date </label><input type="text" id="datepicker"
+			<label for="apptDate">Date <span class="red">*</span></label><input type="text" id="datepicker"
 				name="apptDate" />
 		</p>
 		<p>
 			<input type="submit" value="" id="makeappt" name="makeappt"
-				class="btm submit_btm" />
+				class="btm submit_btm" onclick="return makeAppointmentValidate();"/>
 		</p>
 	</form>
 </div>

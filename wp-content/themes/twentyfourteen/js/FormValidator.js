@@ -152,6 +152,16 @@ function loginValidate() {
 	return MyValidator.init(obj);
 }
 
+function makeAppointmentValidate() {
+	var obj = {
+		datepicker : {
+			required : true,
+			msg : "date"
+		}
+	};
+	return MyValidator.init(obj);
+}
+
 function registerValidate() {
 	var obj = {
 		runame : {
@@ -253,14 +263,14 @@ function patientProfileValidate() {
 			};
 			if (MyValidator.init(obj2)) {
 				if (jQuery("#pnpwd").val() != jQuery("#pcnpwd").val()) {
-					jQuery("#pcnpwd").parent().append("<p class='error'>Passwords don't match</p>");
+					jQuery("#pcnpwd").parent().append(
+							"<p class='error'>Passwords don't match</p>");
 					return false;
 				} else {
 					jQuery("#pcnpwd").parent().find("p.error").remove();
 					return true;
 				}
-			}
-			else {
+			} else {
 				return false;
 			}
 		}
@@ -314,14 +324,14 @@ function doctorProfileValidate() {
 			};
 			if (MyValidator.init(obj2)) {
 				if (jQuery("#dnpwd").val() != jQuery("#dcnpwd").val()) {
-					jQuery("#dcnpwd").parent().append("<p class='error'>Passwords don't match</p>");
+					jQuery("#dcnpwd").parent().append(
+							"<p class='error'>Passwords don't match</p>");
 					return false;
 				} else {
 					jQuery("#dcnpwd").parent().find("p.error").remove();
 					return true;
 				}
-			}
-			else {
+			} else {
 				return false;
 			}
 		}
@@ -367,14 +377,14 @@ function nurseProfileValidate() {
 			};
 			if (MyValidator.init(obj2)) {
 				if (jQuery("#npwd").val() != jQuery("#ncnpwd").val()) {
-					jQuery("#ncnpwd").parent().append("<p class='error'>Passwords don't match</p>");
+					jQuery("#ncnpwd").parent().append(
+							"<p class='error'>Passwords don't match</p>");
 					return false;
 				} else {
 					jQuery("#ncnpwd").parent().find("p.error").remove();
 					return true;
 				}
-			}
-			else {
+			} else {
 				return false;
 			}
 		}
@@ -388,9 +398,9 @@ jQuery(document).ready(function() {
 		jQuery(this).attr('id', 'paid');
 		jQuery(this).parent().html('Paid');
 	});
-	
+
 	jQuery("div.leftnav a").each(function() {
-		if(this.href == window.location.href) {
+		if (this.href == window.location.href) {
 			jQuery(this).parents("div.menu").removeClass('two');
 			jQuery(this).parents("div.menu").addClass('one');
 		}
@@ -398,5 +408,5 @@ jQuery(document).ready(function() {
 });
 
 function changeRoomType(roomType, formName) {
-	jQuery("form[name='roomtype"+formName+"']").submit();
+	jQuery("form[name='roomtype" + formName + "']").submit();
 }
