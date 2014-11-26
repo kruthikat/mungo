@@ -5,7 +5,7 @@
 get_header();
 /* Only if a patient is logged in, the following content will be displayed */
 echo 'Welcome  <strong> Guest! </strong> If you have an account with us, please '; ?>
-<a href="<?php site_url();?>/mungo">Log In</a>
+<a href="<?php echo site_url();?>">Log In</a>
 <?php 
 $profile = new UpdateDatabaseOptions('hpusers');
 $patients = new UpdateDatabaseOptions('patients');
