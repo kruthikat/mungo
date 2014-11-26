@@ -162,6 +162,20 @@ function makeAppointmentValidate() {
 	return MyValidator.init(obj);
 }
 
+function editTreatmentValidate() {
+	var obj = {
+		diagnosis : {
+			required : true,
+			msg : "diagnosis"
+		},
+		pres_med : {
+			required : true,
+			msg : "prescribed medicines"
+		}
+	};
+	return MyValidator.init(obj);
+}
+
 function registerValidate() {
 	var obj = {
 		runame : {

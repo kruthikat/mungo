@@ -19,24 +19,15 @@ else {
 		$query = 'SELECT T.bill_no,TR.diagnosis,TR.prescribed_med FROM ' . $tablename. 'treats T,' .$tablename. 'treatments TR
 	WHERE T.doctor_id = "' . $_SESSION['userid']. '" AND T.patient_id = "' . $patient_id . '"
 	AND T.bill_no=TR.bill_no AND TR.apt_date="' .$apt_date .'"';
-		//echo $query;
 		$billno = $wpdb->get_results($query, ARRAY_A);
-		//echo count($billno);
-		//echo '<pre>';
-		//print_r($billno);
-		//echo '</pre>';
 		$pres_med_p=$billno[0]['prescribed_med'];
 		$diag_p=$billno[0]['diagnosis'];
-		//echo $pres_med_p;
-		//echo $diag_p;
 		/*Update treatments*/
 		$treatments = new UpdateDatabaseOptions('treatments');
 		if(isset($_POST['psubmit'])) {
 			$error = 0;
 			$diagnosis = mysql_real_escape_string($_POST['diagnosis']);
 			$pres_med = mysql_real_escape_string($_POST['pres_med']);
-			//echo $diagnosis;
-			//echo $pres_med;
 
 			if($diagnosis !='' && $pres_med!=''){
 				if(!$treatments->updateRow(
@@ -53,53 +44,33 @@ else {
 			}
 
 			$patient_status = mysql_real_escape_string($_POST['PatientStatus']);
-			//echo $patient_status;
-			if($patient_status==1)
+			if($patient_status==1 && !($patient_type1))
 			{
 				global $wpdb;
 				$tablename = $wpdb->prefix;
 				$query1 = 'SELECT R.roomno FROM ' . $tablename. 'rooms R
 	WHERE R.typeid=1 AND R.roomno!=310 AND R.roomno NOT IN ( SELECT I.roomno FROM ' .$tablename. 'nurses I)';
-				//echo $query1;
 				$roomno = $wpdb->get_results($query1, ARRAY_A);
-				//echo '<pre>';
-				//print_r($roomno);
-				//echo '</pre>';
 				$chosenRoom = $roomno[0]['roomno'];
-				//do {
-				//		$roomNo = rand(100,400);
-				//		$checkroomNo = $room->selectValue(array('COUNT(*)'), array('roomno' => $roomNo));
-				//	} while($checkroomNo[0]['COUNT(*)'] != 0);
-
-				//echo $chosenRoom;
 
 				$treats = new UpdateDatabaseOptions('in_patients');
 				$treatment = $treats->insertRow(array('userid' => $patient_id,
 									'admit_date' => $apt_date,
 									'discharge_date'=> '9999-12-01',
 									'roomno' => $chosenRoom), array('%s', '%s', '%s','%d'));
-					
-				//echo '<pre>';
-				//print_r($treatment);
-				//echo '</pre>';
 
 				$nurse = new UpdateDatabaseOptions('nurses');
 				$nurseAssigned = $nurse->selectValue(array('userid'), array('available' => 1));
 				$chosenNurse = array_rand($nurseAssigned);
 
-				//echo '<pre>';
-				//print_r($chosenNurse);
-				//echo '</pre>';
-
 				if(!$nurse->updateRow(
 				array('available' => 0,
 						'roomno' => $chosenRoom),
 				array('userid' => $nurseAssigned[$chosenNurse]['userid']),
-				array('%s', '%d'),
+				array('%d', '%d'),
 				array('%s')))
 				$error++;
 			}
-
 
 			if($error != 0) {
 				echo 'Sorry! Please try again.';
@@ -111,8 +82,6 @@ else {
 
 		}
 
-
-		//	$treatmentsDetails = $treatments->selectValue(array('patient_id', 'appointment_date', 'diagnosis', 'prescribed_medicines','status'), array('userid' => $_SESSION['userid']));
 		?>
 <div class="leftnav">
 <?php get_sidebar('doctor');?>
@@ -124,7 +93,7 @@ else {
 	</div>
 	<?php }?>
 	<h2>Edit Treatment Details</h2>
-	<form name="EDIT TREATMENT DETAILS" action="" method="post">
+	<form name="editTreatmentDetails" action="" method="post">
 		<p>
 			Patient
 			ID:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -163,44 +132,27 @@ else {
 		if ($patient_type1)
 		{
 			$discharge_date = mysql_real_escape_string($_POST['discharge_date']);
-			//echo $discharge_date;
 			if($discharge_date==1)
 			{
 				global $wpdb;
 				$tablename = $wpdb->prefix;
 				$query2 = 'SELECT R.roomno FROM ' . $tablename. 'in_patients R
 	WHERE R.userid="' .$patient_id.'"'; 
-				//echo $query2;
 				$roomno = $wpdb->get_results($query2, ARRAY_A);
-				//echo '<pre>';
-				//print_r($roomno);
-				//echo '</pre>';
 				$chosenRoom = $roomno[0]['roomno'];
 				$query3 = 'SELECT N.userid FROM ' . $tablename. 'nurses N
 	WHERE N.roomno="' .$chosenRoom.'"'; 
-				//echo $query3;
 				$NurseSel = $wpdb->get_results($query3, ARRAY_A);
-				//echo '<pre>';
-				//print_r($NurseSel);
-				//echo '</pre>';
-				//echo $NurseSel[0]['userid'];
-				//nurseAssigned[$chosenNurse]
 				$FreeNurse = new UpdateDatabaseOptions('nurses');
 				if(!$FreeNurse->updateRow(
 				array('available' => 1,
 						'roomno' => 310),
 				array('userid' => $NurseSel[0]['userid']),
-				array('%s', '%d'),
+				array('%d', '%d'),
 				array('%s')))
 				$error++;
 				$query4 = 'SELECT current_date';
-				//echo $query4;
 				$get_date = $wpdb->get_results($query4, ARRAY_A);
-				//echo '<pre>';
-				//print_r($get_date);
-				//echo '</pre>';
-				//echo $get_date[0];
-				//$getdate[0][current_date]
 				$In_Patients=new UpdateDatabaseOptions('in_patients');
 				if(!$In_Patients->updateRow(
 				array('discharge_date'=>$get_date[0][current_date]),
@@ -220,16 +172,16 @@ else {
 			else if(!$patient_type1) $noselected = $checked;
 			?>
 			<input type="radio" name="discharge_date" value="1" id="YES"
-			<?php echo $yesselected; ?> /> YES<input type="radio"
-				name="discharge_date" 'value="0" id="NO"
-				' <?php echo $noselected; ?> /> NO
-				<?php
+			<?php echo $yesselected; ?> /> Yes<input type="radio"
+				name="discharge_date" 'value="0" id="NO" <?php echo $noselected; ?> />
+			No
+			<?php
 		}
 		?>
 		</p>
 
 		<p>
-			<input type="submit" name="psubmit" id="psubmit" value="Save Changes" />
+			<input type="submit" name="psubmit" id="psubmit" value="Save Changes" onclick="return editTreatmentValidate();"/>
 		</p>
 	</form>
 </div>
