@@ -159,13 +159,13 @@ function registerValidate() {
     	runame: {
             required: true,
             msg: "username",
-            minlength: 8,
+            minlength: 6,
     		maxlength: 10
         },
         rpnpwd: {
             required: true,
             msg: "password",
-            minlength: 8,
+            minlength: 6,
             maxlength: 50
         },
         rpcnpwd: {
@@ -215,14 +215,53 @@ function registerValidate() {
 
 function patientProfileValidate() {
 	var obj = {
-	    	uname: {
+			pname: {
 	            required: true,
 	            msg: "username"
 	        },
-	        pwd: {
+	        contact: {
+	        	required: true,
+	            msg: "contact number",
+	            pattern: /^[0-9]{5,10}$/
+	        },
+	        address: {
 	            required: true,
 	            msg: "password"
+	        },
+	        email: {
+	        	required: true,
+	            msg: "email",
+	            email: true
+	        },
+	        age: {
+	        	required: true,
+	            msg: "age",
+	            maxlength: 3,
+	            pattern: /^[0-9]+$/
 	        }
 	    };
-	    return MyValidator.init(obj);
+		if(MyValidator.init(obj)) {
+			if(jQuery("#popwd").val() != '') {
+				if(jQuery("#pnpwd").val() == '') {
+					jQuery("#pnpwd").parent().append("<p class='error'>Please enter a new password</p>");
+				}
+				else if(jQuery("#pcnpwd").val() == '') {
+					jQuery("#pcnpwd").parent().append("<p class='error'>Please confirm password</p>");
+				}
+				else {
+					jQuery("#pnpwd").parent().find("p.error").remove();
+					jQuery("#pcnpwd").parent().find("p.error").remove();
+					if(jQuery("#pnpwd").val() != jQuery("#pcnpwd").val()) {
+						jQuery("#pcnpwd").parent().append("<p class='error'>Passwords don't match</p>");
+					}
+					else {
+						jQuery("#pcnpwd").parent().find("p.error").remove();
+					}
+				}
+			}
+		}
+		else {
+			return false;
+		}
+	    //return MyValidator.init(obj);
 }
