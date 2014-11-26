@@ -12,6 +12,7 @@ if(isset($_SESSION['userid'])) {
 	
 	$patient_type = new UpdateDatabaseOptions('in_patients');
 	$patient_type1 = $patient_type->selectValue(array('userid'), array('userid' => $patient_id,'discharge_date'=>'9999-12-01'));
+	echo $patient_type1[0];
 	/* extract 	bill no for the patient*/
 	global $wpdb;
 	$tablename = $wpdb->prefix;
@@ -52,13 +53,13 @@ if(isset($_SESSION['userid'])) {
 	}
 	
 	$patient_status = mysql_real_escape_string($_POST['PatientStatus']);
-	//echo $patient_status;
+	echo $patient_status;
 if($patient_status==1)
 {
 	global $wpdb;
 	$tablename = $wpdb->prefix;
 	$query1 = 'SELECT R.roomno FROM ' . $tablename. 'rooms R
-	WHERE R.typeid=1 AND R.roomno!=310 AND R.roomno NOT IN ( SELECT I.roomno FROM ' .$tablename. 'nurses I)';
+	WHERE R.typeid=1 AND R.roomno!=310 AND R.roomno NOT IN ( SELECT I.roomno FROM ' .$tablename. 'in_patients I WHERE discharge_date="9999-12-01")';
 	//echo $query1;
 	$roomno = $wpdb->get_results($query1, ARRAY_A);
 	//echo '<pre>';
@@ -70,15 +71,15 @@ if($patient_status==1)
 	//		$checkroomNo = $room->selectValue(array('COUNT(*)'), array('roomno' => $roomNo));
 	//	} while($checkroomNo[0]['COUNT(*)'] != 0);
 
-	//echo $chosenRoom;
-	
+	echo $chosenRoom;
+	//echo $error;
 	$treats = new UpdateDatabaseOptions('in_patients');
 	$treatment = $treats->insertRow(array('userid' => $patient_id,
 									'admit_date' => $apt_date,
 									'discharge_date'=> '9999-12-01',
 									'roomno' => $chosenRoom), array('%s', '%s', '%s','%d'));
 					
-//echo '<pre>';
+	//echo '<pre>';
 	//print_r($treatment);
 	//echo '</pre>';		
 
@@ -86,19 +87,19 @@ if($patient_status==1)
 	$nurseAssigned = $nurse->selectValue(array('userid'), array('available' => 1));
 	$chosenNurse = array_rand($nurseAssigned);
 	
-	//echo '<pre>';
-	//print_r($chosenNurse);
-	//echo '</pre>';
+	//echo $nurseAssigned[$chosenNurse]['userid'];
 	
+	//echo $error;
+	$availability=0;
 	if(!$nurse->updateRow(
-						array('available' => 0,
+						array('available' => $availability,
 						'roomno' => $chosenRoom),
 						array('userid' => $nurseAssigned[$chosenNurse]['userid']),
 						array('%s', '%d'),
 						array('%s')))
 						$error++;
 }
-							
+	//echo $error;						
 												
 	if($error != 0) {
 	echo 'Sorry! Please try again.';
@@ -110,25 +111,33 @@ if($patient_status==1)
 	
 	}
 	
-
 //	$treatmentsDetails = $treatments->selectValue(array('patient_id', 'appointment_date', 'diagnosis', 'prescribed_medicines','status'), array('userid' => $_SESSION['userid']));
 ?>
-
+<div class="leftnav"><?php get_sidebar('doctor');?></div>
+<div class="main_content">
 	<h1>Edit Treatment Details</h1>
 	<form name="EDIT TREATMENT DETAILS" action="" method="post">
 	<p>
+	<br>
 		<label for="Patient_Id">Patient ID : </label> <label for="Patient_ID_value" ><?php echo $patient_id;?></label>
+	</br>
 	</p>
 	<p>
+	<br>
 		<label for="Apt_date">Appointment Date : </label> <label for="Apt_date_value" ><?php echo $apt_date;?></label>
+	</br>
 	</p>
 	<p>
+	<br>
 		<label for="diagnosis">Diagnosis</label> <input type="text" name="diagnosis"
 				id="diagnosis" value="<?php echo $diag_p;?>" />
+	</br>
 	</p>
 	<p>
+	<br>
 		<label for="pres_med">Prescribed Medicines</label> <input type="text" name="pres_med"
 				id="pres_med" value="<?php echo $pres_med_p;?>" />
+	</br>
 	</p>
 	<p>
 		<label for="Patient_Status">Patient Status</label>
@@ -214,7 +223,7 @@ global $wpdb;
 	</p>
 	
 	<p>
-		<input type="submit" name="psubmit" id="psubmit" value="Save Changes" />
+		<input type="submit" name="psubmit" id="psubmit" value class="btm submit_btm" />
 	</p>
 </form>
 <?php }?>

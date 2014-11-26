@@ -8,12 +8,12 @@ if(isset($_SESSION['userid']) && isset($_SESSION['usertype']) && $_SESSION['user
 	global $wpdb;
 	$tablename = $wpdb->prefix;
 	$query = 'SELECT U.userid, U.name, I.roomno FROM ' . $tablename. 'hpusers U, ' . $tablename. 'in_patients I WHERE U.userid=I.userid AND I.roomno IN (SELECT N.roomno FROM ' . $tablename. 'nurses N WHERE N.userid="' . $_SESSION['userid']. '")';
-	$assignedRooms = $wpdb->get_results($query, ARRAY_A);
-	if(count($assignedRooms) != 0) {
-		?>
+	$assignedRooms = $wpdb->get_results($query, ARRAY_A); ?>
 <div class="leftnav">
 <?php get_sidebar('nurse');?>
 </div>
+<?php	if(count($assignedRooms) != 0) {
+		?>
 <div class="main_content">
 	<h2>Assigned Rooms</h2>
 	<table>

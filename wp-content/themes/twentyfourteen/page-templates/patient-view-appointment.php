@@ -7,7 +7,7 @@ get_header();
 if(isset($_SESSION['userid']) && isset($_SESSION['usertype']) && $_SESSION['usertype'] == 2) {
 	global $wpdb;
 	$tablename = $wpdb->prefix;
-	$query = 'SELECT A.apt_date, T.diagnosis, T.prescribed_med, D.name FROM ' . $tablename. 'appointments A, ' . $tablename. 'treatments T, ' . $tablename. 'hpusers D, ' . $tablename. 'treats T2 WHERE A.patient_id = "' . $_SESSION['userid']. '" AND A.patient_id = T2.patient_id AND T2.doctor_id = D.userid AND T2.bill_no = T.bill_no;';
+	$query = 'SELECT A.apt_date, T.diagnosis, T.prescribed_med, D.name FROM ' . $tablename. 'appointments A, ' . $tablename. 'treatments T, ' . $tablename. 'hpusers D, ' . $tablename. 'treats T2 WHERE A.patient_id = "' . $_SESSION['userid']. '" AND A.patient_id = T2.patient_id AND T2.doctor_id = D.userid AND T2.bill_no = T.bill_no AND A.apt_date = T.apt_date;';
 	$patientAppointments = $wpdb->get_results($query, ARRAY_A); ?>
 <div class="leftnav">
 <?php get_sidebar('patient');?>
