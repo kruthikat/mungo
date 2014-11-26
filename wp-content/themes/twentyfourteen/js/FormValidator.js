@@ -270,7 +270,6 @@ function patientProfileValidate() {
 }
 
 function doctorProfileValidate() {
-	console.log('yahaa');
 	var obj = {
 		dname : {
 			required : true,
@@ -390,3 +389,7 @@ jQuery(document).ready(function() {
 		jQuery(this).parent().html('Paid');
 	});
 });
+
+function changeRoomType(roomType, formName) {
+	jQuery("form[name='roomtype"+formName+"']").submit();
+}
