@@ -272,3 +272,126 @@ function patientProfileValidate() {
 		return false;
 	}
 }
+
+function doctorProfileValidate() {
+	console.log('yahaa');
+	var obj = {
+		dname : {
+			required : true,
+			msg : "username"
+		},
+		contact : {
+			required : true,
+			msg : "contact number",
+			pattern : /^[0-9]{5,10}$/
+		},
+		address : {
+			required : true,
+			msg : "password"
+		},
+		email : {
+			required : true,
+			msg : "email",
+			email : true
+		},
+		qualification : {
+			required : true,
+			msg : "qualification"
+		},
+		experience : {
+			required : true,
+			msg : "experience"
+		}
+	};
+	if (MyValidator.init(obj)) {
+		if (jQuery("#dopwd").val() != '' || jQuery("#dnpwd").val() != '' || jQuery("#dcnpwd").val() != '') {
+			var obj2 = {
+				dopwd : {
+					required : true,
+					msg : "old password"
+				},
+				dnpwd : {
+					required : true,
+					msg : "new password",
+					minlength : 6,
+					maxlength : 50
+				},
+				dcnpwd : {
+					required : true,
+					msg : "to confirm password"
+				}
+			};
+			if (MyValidator.init(obj2)) {
+				if (jQuery("#dnpwd").val() != jQuery("#dcnpwd").val()) {
+					jQuery("#dcnpwd").parent().append("<p class='error'>Passwords don't match</p>");
+					return false;
+				} else {
+					jQuery("#dcnpwd").parent().find("p.error").remove();
+					return true;
+				}
+			}
+			else {
+				return false;
+			}
+		}
+	} else {
+		return false;
+	}
+}
+
+function nurseProfileValidate() {
+	var obj = {
+		nname : {
+			required : true,
+			msg : "username"
+		},
+		contact : {
+			required : true,
+			msg : "contact number",
+			pattern : /^[0-9]{5,10}$/
+		},
+		address : {
+			required : true,
+			msg : "password"
+		},
+		email : {
+			required : true,
+			msg : "email",
+			email : true
+		}
+	};
+	if (MyValidator.init(obj)) {
+		if (jQuery("#nopwd").val() != '' || jQuery("#npwd").val() != '' || jQuery("#ncnpwd").val() != '') {
+			var obj2 = {
+				nopwd : {
+					required : true,
+					msg : "old password"
+				},
+				npwd : {
+					required : true,
+					msg : "new password",
+					minlength : 6,
+					maxlength : 50
+				},
+				ncnpwd : {
+					required : true,
+					msg : "to confirm password"
+				}
+			};
+			if (MyValidator.init(obj2)) {
+				if (jQuery("#npwd").val() != jQuery("#ncnpwd").val()) {
+					jQuery("#ncnpwd").parent().append("<p class='error'>Passwords don't match</p>");
+					return false;
+				} else {
+					jQuery("#ncnpwd").parent().find("p.error").remove();
+					return true;
+				}
+			}
+			else {
+				return false;
+			}
+		}
+	} else {
+		return false;
+	}
+}

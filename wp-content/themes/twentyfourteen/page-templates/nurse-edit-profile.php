@@ -6,6 +6,7 @@ get_header();
 /* Only if a nurse is logged in, the following content will be displayed */
 if(isset($_SESSION['userid']) && isset($_SESSION['usertype']) && $_SESSION['usertype'] == 1) {
 	$profile = new UpdateDatabaseOptions('hpusers');
+	$message = '';
 	if(isset($_POST['nsubmit'])) {
 		$error = 0;
 		$name = mysql_real_escape_string($_POST['nname']);
@@ -24,9 +25,6 @@ if(isset($_SESSION['userid']) && isset($_SESSION['usertype']) && $_SESSION['user
 			array('%s')))
 			$error++;
 		}
-		else {
-			echo "'Name', 'Contact Number', 'Address', 'Email ID', 'Age' and 'Gender' cannot be left blank";
-		}
 		if($newPassword != '') {
 			if(!$profile->updateRow(
 			array('password' => $newPassword),
@@ -36,10 +34,10 @@ if(isset($_SESSION['userid']) && isset($_SESSION['usertype']) && $_SESSION['user
 			$error++;
 		}
 		if($error != 0) {
-			echo 'Sorry! Please try again.';
+			$message = 'Sorry! Please try again.';
 		}
 		else {
-			echo 'Changes successfully saved.';
+			$message = 'Changes successfully saved.';
 		}
 	}
 	$profileDetails = $profile->selectValue(array('name', 'contact', 'addr', 'emailid'), array('userid' => $_SESSION['userid']));
@@ -49,6 +47,11 @@ if(isset($_SESSION['userid']) && isset($_SESSION['usertype']) && $_SESSION['user
 <?php get_sidebar('nurse');?>
 </div>
 <div class="main_content">
+<?php if($message != '') {?>
+	<div class="infobar">
+	<?php echo $message;?>
+	</div>
+	<?php }?>
 	<h2>Edit Profile</h2>
 	<form name="nurseEditProfile" action="" method="post">
 		<p>
@@ -69,7 +72,9 @@ if(isset($_SESSION['userid']) && isset($_SESSION['usertype']) && $_SESSION['user
 			<label for="email">Email ID</label> <input type="text" name="email"
 				id="email" value="<?php echo $profileDetails[0]['emailid'];?>" />
 		</p>
-		<p><strong>Change Password?</strong></p>
+		<p>
+			<strong>Change Password?</strong>
+		</p>
 		<p>
 			<label for="nopwd">Old Password</label> <input type="password"
 				name="nopwd" id="nopwd" />
@@ -83,11 +88,11 @@ if(isset($_SESSION['userid']) && isset($_SESSION['usertype']) && $_SESSION['user
 				type="password" name="ncnpwd" id="ncnpwd" />
 		</p>
 		<p>
-			<input type="submit" name="nsubmit" id="nsubmit" value="Save Changes" />
+			<input type="submit" name="nsubmit" id="nsubmit" value="" class="btm submit_btm" onclick="return nurseProfileValidate();" />
 		</p>
 	</form>
 </div>
-<?php } else {
-	header("Location:" . site_url());
-}
-get_footer();
+	<?php } else {
+		header("Location:" . site_url());
+	}
+	get_footer();

@@ -34,9 +34,6 @@ if(isset($_SESSION['userid']) && isset($_SESSION['usertype']) && $_SESSION['user
 			array('%s')))
 			$error++;
 		}
-		else {
-			$message = "'Name', 'Contact Number', 'Address', 'Email ID', 'Age' and 'Gender' cannot be left blank";
-		}
 		if($newPassword != '') {
 			if(!$profile->updateRow(
 			array('password' => $newPassword),
