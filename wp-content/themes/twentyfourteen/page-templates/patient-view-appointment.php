@@ -6,6 +6,7 @@ get_header();
 /* Only if a patient is logged in, the following content will be displayed */
 if(isset($_SESSION['userid']) && isset($_SESSION['usertype']) && $_SESSION['usertype'] == 2) {
 	global $wpdb;
+	$message = '';
 	$tablename = $wpdb->prefix;
 	$query = 'SELECT A.apt_date, T.diagnosis, T.prescribed_med, D.name FROM ' . $tablename. 'appointments A, ' . $tablename. 'treatments T, ' . $tablename. 'hpusers D, ' . $tablename. 'treats T2 WHERE A.patient_id = "' . $_SESSION['userid']. '" AND A.patient_id = T2.patient_id AND T2.doctor_id = D.userid AND T2.bill_no = T.bill_no;';
 	$patientAppointments = $wpdb->get_results($query, ARRAY_A); ?>
@@ -28,8 +29,16 @@ if(isset($_SESSION['userid']) && isset($_SESSION['usertype']) && $_SESSION['user
 				$inPatient = new UpdateDatabaseOptions("in_patients");
 				$rooms = new UpdateDatabaseOptions("rooms");
 				$roomType = new UpdateDatabaseOptions("roomtype");
-				if(isset($_POST['roomtype' . $appointment['apt_date']])) {
-					
+				$nurses = new UpdateDatabaseOptions("nurses");
+				if(isset($_POST[$appointment['apt_date']])) {
+					$roomsOfSelectedType = $rooms->selectValue(array('roomno'), array('typeid' => $_POST[$appointment['apt_date']]));
+					if(count($roomsOfSelectedType) != 0) {
+						$allottedRoom = array_rand($roomsOfSelectedType);
+						if($inPatient->updateRow(array('roomno' => $roomsOfSelectedType[$allottedRoom]['roomno']), array('userid' => $_SESSION['userid'], 'admit_date' => $appointment['apt_date']), array('%d'), array('%s', '%s')))
+						$message = 'Room updated';
+						else $message = 'Room could not be updated. Please try again.';
+					}
+					else $message = "Sorry! Rooms of this type are full. Please choose another type";
 				}
 				?>
 			<tr>
@@ -49,10 +58,12 @@ if(isset($_SESSION['userid']) && isset($_SESSION['usertype']) && $_SESSION['user
 						choose to change the type of room:</p>
 					<form name="roomtype<?php echo $appointment['apt_date'];?>"
 						method="post" action="">
-						<select style="width: 100px;">
-						<?php $types = $roomType->selectValue(array('typeid', 'rtype'), array(''));
-						foreach($types as $type) { ?>
-							<option value="<?php $type['typeid'];?>">
+						<select style="width: 100px;"
+							onchange="changeRoomType(this.value, this.name)"
+							name="<?php echo $appointment['apt_date'];?>">
+							<?php $types = $roomType->selectValue(array('typeid', 'rtype'), array(''));
+							foreach($types as $type) { ?>
+							<option value="<?php echo $type['typeid'];?>">
 							<?php echo $type['rtype']?>
 							</option>
 							<?php  } ?>
@@ -67,14 +78,15 @@ if(isset($_SESSION['userid']) && isset($_SESSION['usertype']) && $_SESSION['user
 			<?php }?>
 		</thead>
 	</table>
-	<?php } else { ?>
+	<?php } else { $message = 'You have no appointments.'; }?>
+	<?php if($message != '') {?>
 	<div class="infobar">
-	<?php echo 'You have no appointments.';?>
+	<?php echo $message;?>
 	</div>
+	<?php }?>
 </div>
 	<?php }
-}
-else {
-	header("Location:" . site_url());
-}
-get_footer();
+	else {
+		header("Location:" . site_url());
+	}
+	get_footer();
