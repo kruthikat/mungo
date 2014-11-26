@@ -3,6 +3,12 @@
  * Template Name: Login Page
  */
 get_header();
+if(isset($_SESSION['userid']) && isset($_SESSION['usertype']) && $_SESSION['usertype'] == 1) {
+	header('Location:' . get_permalink(27)); }
+else if(isset($_SESSION['userid']) && isset($_SESSION['usertype']) && $_SESSION['usertype'] == 2) {
+	header('Location:' . get_permalink(9)); }
+else if(isset($_SESSION['userid']) && isset($_SESSION['usertype']) && $_SESSION['usertype'] == 3) {
+	header('Location:' . get_permalink(19)); }
 if(isset($_POST['log'])) {
 	$username = $_POST['uname'];
 	$password = $_POST['pwd'];

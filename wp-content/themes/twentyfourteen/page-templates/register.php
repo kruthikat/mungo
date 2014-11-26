@@ -3,7 +3,12 @@
  * Template Name: Registration
  */
 get_header();
-/* Only if a patient is logged in, the following content will be displayed */
+if(isset($_SESSION['userid']) && isset($_SESSION['usertype']) && $_SESSION['usertype'] == 1) {
+	header('Location:' . get_permalink(27)); }
+else if(isset($_SESSION['userid']) && isset($_SESSION['usertype']) && $_SESSION['usertype'] == 2) {
+	header('Location:' . get_permalink(9)); }
+else if(isset($_SESSION['userid']) && isset($_SESSION['usertype']) && $_SESSION['usertype'] == 3) {
+	header('Location:' . get_permalink(19)); }
 echo 'Welcome  <strong> Guest! </strong> If you have an account with us, please '; ?>
 <a href="<?php echo site_url();?>">Log In</a>
 <?php 
