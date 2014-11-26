@@ -188,3 +188,26 @@ td {
 p.error {
 	font-size: 13px;
 }
+
+.footer {
+	width: ;
+	background-color: #2E2633;
+	height: 50px;
+	padding: 20px;
+}
+
+.footer h1 { /*font-family: snippet, sans-serif;*/
+	font-family: philosopher, sans-serif;
+	color: #FAF6EB;
+	font-size: 18px;
+	margin: 0px 10px 10px 160px;
+	padding: 0;
+}
+
+.footer p { /*font-family: snippet, sans-serif;*/
+	font-family: philosopher, sans-serif;
+	color: #FAF6EB;
+	font-size: 8px;
+	margin: 0px 10px 10px 160px;
+	padding: 0;
+}

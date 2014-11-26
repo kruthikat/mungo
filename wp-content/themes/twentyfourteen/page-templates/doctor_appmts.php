@@ -33,7 +33,7 @@ if(isset($_SESSION['userid']) && isset($_SESSION['usertype']) && $_SESSION['user
 			<td><?php echo $appointment['A'];?></td>
 			<td><?php echo $appointment['P'];?></td>
 			<td><a href="<?php echo add_query_arg(
-			array('patient_id' => $appointment['P'], 'apt_id' => $appointment['A']),get_permalink(get_page_by_title('Edit Treatment Details')));?>"> Edit Treatment </a></td>"
+			array('patient_id' => $appointment['P'], 'apt_date' => $appointment['A']),get_permalink(get_page_by_title('Edit Treatment Details')));?>"> Edit Treatment </a></td>
 		</tr>
 		<?php } ?>
 	<thead>
