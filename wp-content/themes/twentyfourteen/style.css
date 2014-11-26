@@ -12,6 +12,7 @@ Text Domain: twentyfourteen
 */
 body {
 	font-family: philosopher, sans-serif;
+	cursor: url('images/use160.cur'), auto;
 }
 
 .outer_main {
@@ -48,7 +49,6 @@ h2 {
 	width: 968px;
 	min-height: 375px;
 	margin: 0 auto;
-	background-color: #FAF6EB;
 	padding: 40px;
 	overflow: auto;
 }
@@ -86,7 +86,7 @@ select {
 	height: 30px;
 }
 
-.red, p.error {
+.red,p.error {
 	color: #99173C;
 }
 
@@ -195,7 +195,7 @@ p.error {
 	padding: 20px;
 }
 
-.footer p { 
+.footer p {
 	color: #FAF6EB;
 	font-size: 13px;
 	margin: 0px 10px 10px 160px;

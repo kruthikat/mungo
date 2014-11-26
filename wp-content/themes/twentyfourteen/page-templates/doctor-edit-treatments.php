@@ -3,6 +3,7 @@
  * Template Name: Doctor Edit Treatment Details
  */
 get_header();
+$message = '';
 if(!isset($_GET['patient_id']) || !isset($_GET['patient_id'])) {
 	header('Location:' . get_permalink(get_page_by_title('View all appointments')));
 }
@@ -73,10 +74,10 @@ else {
 			}
 
 			if($error != 0) {
-				echo 'Sorry! Please try again.';
+				$message = 'Sorry! Please try again.';
 			}
 			else {
-				echo 'Changes successfully saved.';
+				$message = 'Changes successfully saved.';
 			}
 
 
@@ -181,7 +182,7 @@ else {
 		</p>
 
 		<p>
-			<input type="submit" name="psubmit" id="psubmit" value="Save Changes" onclick="return editTreatmentValidate();"/>
+			<input type="submit" name="psubmit" id="psubmit" value="" class="btm submit_btm" onclick="return editTreatmentValidate();"/>
 		</p>
 	</form>
 </div>

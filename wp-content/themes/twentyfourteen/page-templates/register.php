@@ -48,7 +48,7 @@ if(isset($_POST['rpsubmit'])) {
 	}
 	else {
 		$login = site_url();
-		$message = "Registration done! Please continue to <a href='$login'>login</a>";
+		$message = "Registration done!";
 	}
 }
 ?>
