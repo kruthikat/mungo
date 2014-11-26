@@ -76,10 +76,6 @@ if(isset($_SESSION['userid']) && isset($_SESSION['usertype']) && $_SESSION['user
 			<strong>Change Password?</strong>
 		</p>
 		<p>
-			<label for="nopwd">Old Password</label> <input type="password"
-				name="nopwd" id="nopwd" />
-		</p>
-		<p>
 			<label for="npwd">New Password</label> <input type="password"
 				name="npwd" id="npwd" />
 		</p>

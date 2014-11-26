@@ -238,12 +238,8 @@ function patientProfileValidate() {
 		}
 	};
 	if (MyValidator.init(obj)) {
-		if (jQuery("#popwd").val() != '' || jQuery("#pnpwd").val() != '' || jQuery("#pcnpwd").val() != '') {
+		if (jQuery("#pnpwd").val() != '' || jQuery("#pcnpwd").val() != '') {
 			var obj2 = {
-				popwd : {
-					required : true,
-					msg : "old password"
-				},
 				pnpwd : {
 					required : true,
 					msg : "new password",
@@ -304,12 +300,8 @@ function doctorProfileValidate() {
 		}
 	};
 	if (MyValidator.init(obj)) {
-		if (jQuery("#dopwd").val() != '' || jQuery("#dnpwd").val() != '' || jQuery("#dcnpwd").val() != '') {
+		if (jQuery("#dnpwd").val() != '' || jQuery("#dcnpwd").val() != '') {
 			var obj2 = {
-				dopwd : {
-					required : true,
-					msg : "old password"
-				},
 				dnpwd : {
 					required : true,
 					msg : "new password",
@@ -361,12 +353,8 @@ function nurseProfileValidate() {
 		}
 	};
 	if (MyValidator.init(obj)) {
-		if (jQuery("#nopwd").val() != '' || jQuery("#npwd").val() != '' || jQuery("#ncnpwd").val() != '') {
+		if (jQuery("#npwd").val() != '' || jQuery("#ncnpwd").val() != '') {
 			var obj2 = {
-				nopwd : {
-					required : true,
-					msg : "old password"
-				},
 				npwd : {
 					required : true,
 					msg : "new password",

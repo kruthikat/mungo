@@ -86,11 +86,7 @@ if(isset($_SESSION['userid']) && isset($_SESSION['usertype']) && $_SESSION['user
 				name="experience" id="experience"
 				value="<?php echo $doctorDetails[0]['experience'];?>" />
 		</p>
-		<p>Change Password</p>
-		<p>
-			<label for="dopwd">Old Password</label> <input type="password"
-				name="dopwd" id="dopwd" />
-		</p>
+		<p><strong>Change Password?</strong></p>
 		<p>
 			<label for="dnpwd">New Password</label> <input type="password"
 				name="dnpwd" id="dnpwd" />

@@ -101,10 +101,6 @@ if(isset($_SESSION['userid']) && isset($_SESSION['usertype']) && $_SESSION['user
 			<strong>Change Password?</strong>
 		</p>
 		<p>
-			<label for="popwd">Old Password</label> <input type="password"
-				name="popwd" id="popwd" />
-		</p>
-		<p>
 			<label for="pnpwd">New Password</label> <input type="password"
 				name="pnpwd" id="pnpwd" />
 		</p>
