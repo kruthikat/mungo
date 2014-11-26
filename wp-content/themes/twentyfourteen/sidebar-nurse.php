@@ -12,7 +12,7 @@
 		<a href="<?php echo get_permalink(get_page_by_title('Nurse Home'));?>">Home</a>
 	</p>
 </div>
-<div class="menu one">
+<div class="menu two">
 	<p>
 		<a href="<?php echo get_permalink(get_page_by_title('Assigned Room'));?>">View Rooms</a>
 	</p>

@@ -25,16 +25,19 @@ if(isset($_SESSION['userid']) && isset($_SESSION['usertype']) && $_SESSION['user
 				<th>Admission Details</th>
 				<th>Reference Doctor</th>
 			</tr>
-			<?php foreach ($patientAppointments as $appointment) {
-				$inPatient = new UpdateDatabaseOptions("in_patients");
-				$rooms = new UpdateDatabaseOptions("rooms");
-				$roomType = new UpdateDatabaseOptions("roomtype");
-				$nurses = new UpdateDatabaseOptions("nurses");
+			<?php
+			$inPatient = new UpdateDatabaseOptions("in_patients");
+			$rooms = new UpdateDatabaseOptions("rooms");
+			$roomType = new UpdateDatabaseOptions("roomtype");
+			$nurses = new UpdateDatabaseOptions("nurses");
+			foreach ($patientAppointments as $appointment) {
 				if(isset($_POST[$appointment['apt_date']])) {
 					$roomsOfSelectedType = $rooms->selectValue(array('roomno'), array('typeid' => $_POST[$appointment['apt_date']]));
-					if(count($roomsOfSelectedType) != 0) {
-						$allottedRoom = array_rand($roomsOfSelectedType);
-						if($inPatient->updateRow(array('roomno' => $roomsOfSelectedType[$allottedRoom]['roomno']), array('userid' => $_SESSION['userid'], 'admit_date' => $appointment['apt_date']), array('%d'), array('%s', '%s')))
+					$unavailableRoomsOfSelectedType = $nurses->selectValue(array('roomno'), array(''));
+					$availableRoomsOfSelectedType = array_intersect($roomsOfSelectedType, $unavailableRoomsOfSelectedType);
+					if(count($availableRoomsOfSelectedType) != 0) {
+						$allottedRoom = array_rand($availableRoomsOfSelectedType);
+						if($inPatient->updateRow(array('roomno' => $availableRoomsOfSelectedType[$allottedRoom]['roomno']), array('userid' => $_SESSION['userid'], 'admit_date' => $appointment['apt_date']), array('%d'), array('%s', '%s')))
 						$message = 'Room updated';
 						else $message = 'Room could not be updated. Please try again.';
 					}

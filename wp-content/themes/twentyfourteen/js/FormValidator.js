@@ -388,6 +388,13 @@ jQuery(document).ready(function() {
 		jQuery(this).attr('id', 'paid');
 		jQuery(this).parent().html('Paid');
 	});
+	
+	jQuery("div.leftnav a").each(function() {
+		if(this.href == window.location.href) {
+			jQuery(this).parents("div.menu").removeClass('two');
+			jQuery(this).parents("div.menu").addClass('one');
+		}
+	});
 });
 
 function changeRoomType(roomType, formName) {

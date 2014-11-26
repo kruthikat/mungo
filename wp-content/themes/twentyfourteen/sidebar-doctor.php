@@ -13,7 +13,7 @@
 			href="<?php echo get_permalink(get_page_by_title('Doctor Home'));?>">Home</a>
 	</p>
 </div>
-<div class="menu one">
+<div class="menu two">
 	<p>
 		<a href="<?php echo get_permalink(get_page_by_title('View all appointments'));?>">View your appointments</a>
 	</p>
