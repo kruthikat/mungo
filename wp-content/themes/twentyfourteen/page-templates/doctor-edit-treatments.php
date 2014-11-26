@@ -50,7 +50,7 @@ else {
 				global $wpdb;
 				$tablename = $wpdb->prefix;
 				$query1 = 'SELECT R.roomno FROM ' . $tablename. 'rooms R
-	WHERE R.typeid=1 AND R.roomno!=310 AND R.roomno NOT IN ( SELECT I.roomno FROM ' .$tablename. 'nurses I)';
+	WHERE R.typeid=1 AND R.roomno!=310 AND R.roomno NOT IN ( SELECT I.roomno FROM ' .$tablename. 'in_patients I)';
 				$roomno = $wpdb->get_results($query1, ARRAY_A);
 				$chosenRoom = $roomno[0]['roomno'];
 
@@ -152,11 +152,12 @@ else {
 				array('%d', '%d'),
 				array('%s')))
 				$error++;
+				//$get_date[0][current_date]
 				$query4 = 'SELECT current_date';
 				$get_date = $wpdb->get_results($query4, ARRAY_A);
 				$In_Patients=new UpdateDatabaseOptions('in_patients');
 				if(!$In_Patients->updateRow(
-				array('discharge_date'=>$get_date[0][current_date]),
+				array('discharge_date'=>"2014-12-01"),
 				array('userid'=>$patient_id),
 				array('%s'),
 				array('%s')))
