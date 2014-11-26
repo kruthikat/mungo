@@ -244,18 +244,22 @@ function patientProfileValidate() {
 			if(jQuery("#popwd").val() != '') {
 				if(jQuery("#pnpwd").val() == '') {
 					jQuery("#pnpwd").parent().append("<p class='error'>Please enter a new password</p>");
+					return false;
 				}
 				else if(jQuery("#pcnpwd").val() == '') {
 					jQuery("#pcnpwd").parent().append("<p class='error'>Please confirm password</p>");
+					return false;
 				}
 				else {
 					jQuery("#pnpwd").parent().find("p.error").remove();
 					jQuery("#pcnpwd").parent().find("p.error").remove();
 					if(jQuery("#pnpwd").val() != jQuery("#pcnpwd").val()) {
 						jQuery("#pcnpwd").parent().append("<p class='error'>Passwords don't match</p>");
+						return false;
 					}
 					else {
 						jQuery("#pcnpwd").parent().find("p.error").remove();
+						return true;
 					}
 				}
 			}
