@@ -14,8 +14,7 @@
 		</div> <!-- page main -->
 	</div> <!-- outer main -->
 	<div class="footer">
-			<h1>St. Mungo's Hospital for Magical Maladies and Injuries</h1>
-			<p>(c) DBMS Project Group 12</p>
+			<p>&copy; DBMS Project Group 12</p>
 		</div>
 	<?php wp_footer(); ?>
 	<script
